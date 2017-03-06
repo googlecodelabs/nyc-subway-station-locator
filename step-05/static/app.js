@@ -24,6 +24,7 @@ class MapManager {
     this.map = new google.maps.Map(document.getElementsByClassName(mapDivClass)[0], {
       zoom: 11,
       center: {
+        // New York City
         lat: 40.7305,
         lng: -73.9091
       }
