@@ -45,9 +45,13 @@ func cacheGeoJSON() {
 // init is called from the App Engine runtime to initialize the app.
 func init() {
 	cacheGeoJSON()
-	loadStations()
 	http.HandleFunc("/data/subway-stations", subwayStationsHandler)
 	http.HandleFunc("/data/subway-lines", subwayLinesHandler)
+}
+
+func subwayStationsHandler(w http.ResponseWriter, r *http.Request) {
+	w.Header().Set("Content-type", "application/json")
+	w.Write(GeoJSON["subway-stations.geojson"])
 }
 
 func subwayLinesHandler(w http.ResponseWriter, r *http.Request) {
