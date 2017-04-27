@@ -19,81 +19,96 @@
 /* eslint quotes: ["warn", "single"]*/
 
 // Map Style for the basemap tiles.
-const mapStyle = [{
-    'elementType': 'geometry',
-    'stylers': [{
-      'color': '#eceff1'
-    }]
+const mapStyle = [
+  {
+    elementType: 'geometry',
+    stylers: [
+      {
+        color: '#eceff1'
+      }
+    ]
   },
   {
-    'elementType': 'labels',
-    'stylers': [{
-      'visibility': 'off'
-    }]
+    elementType: 'labels',
+    stylers: [
+      {
+        visibility: 'off'
+      }
+    ]
   },
   {
-    'featureType': 'administrative',
-    'elementType': 'labels',
-    'stylers': [{
-      'visibility': 'off'
-    }]
+    featureType: 'administrative',
+    elementType: 'labels',
+    stylers: [
+      {
+        visibility: 'off'
+      }
+    ]
   },
   {
-    'featureType': 'road',
-    'elementType': 'geometry',
-    'stylers': [{
-      'color': '#cfd8dc'
-    }]
+    featureType: 'road',
+    elementType: 'geometry',
+    stylers: [
+      {
+        color: '#cfd8dc'
+      }
+    ]
   },
   {
-    'featureType': 'road',
-    'elementType': 'geometry.stroke',
-    'stylers': [{
-      'visibility': 'off'
-    }]
+    featureType: 'road',
+    elementType: 'geometry.stroke',
+    stylers: [
+      {
+        visibility: 'off'
+      }
+    ]
   },
   {
-    'featureType': 'road.local',
-    'stylers': [{
-      'visibility': 'off'
-    }]
+    featureType: 'road.local',
+    stylers: [
+      {
+        visibility: 'off'
+      }
+    ]
   },
   {
-    'featureType': 'water',
-    'stylers': [{
-      'color': '#b0bec5'
-    }]
+    featureType: 'water',
+    stylers: [
+      {
+        color: '#b0bec5'
+      }
+    ]
   }
 ];
 
 // Colors from https://en.wikipedia.org/wiki/New_York_City_Subway_nomenclature#Colors_and_trunk_lines
 let routeColors = {
   // IND Eighth Avenue Line
-  'A': '#2850ad',
-  'C': '#2850ad',
-  'E': '#2850ad',
+  A: '#2850ad',
+  C: '#2850ad',
+  E: '#2850ad',
 
   // IND Sixth Avenue Line
-  'B': '#ff6319',
-  'D': '#ff6319',
-  'F': '#ff6319',
-  'M': '#ff6319',
+  B: '#ff6319',
+  D: '#ff6319',
+  F: '#ff6319',
+  M: '#ff6319',
 
   // IND Crosstown Line
-  'G': '#6cbe45',
+  G: '#6cbe45',
 
   // BMT Canarsie Line
-  'L': '#a7a9ac',
+  L: '#a7a9ac',
 
   // BMT Nassau Street Line
-  'J': '#996633',
-  'Z': '#996633',
+  J: '#996633',
+  Z: '#996633',
 
   // BMT Broadway Line
-  'N': '#fccc0a',
-  'Q': '#fccc0a',
-  'R': '#fccc0a',
-  'W': '#fccc0a',
+  N: '#fccc0a',
+  Q: '#fccc0a',
+  R: '#fccc0a',
+  W: '#fccc0a',
 
   // IRT Broadway – Seventh Avenue Line
   '1': '#ee352e',
@@ -109,7 +124,7 @@ let routeColors = {
   '7': '#b933ad',
 
   // Shuttles
-  'S': '#808183',
+  S: '#808183'
 };
 
 // initMap is called from the Google Maps JS library after the library has initialised itself.
@@ -133,7 +148,7 @@ function initMap() {
   map.data.setStyle(feature => {
     let line = feature.getProperty('line');
     // Stations have line property, while lines do not.
-    if (typeof line !== "undefined") {
+    if (typeof line !== 'undefined') {
       // Icon path from: https://material.io/icons/#ic_train
       return {
         icon: {
@@ -162,7 +177,7 @@ function initMap() {
     let stationName = f.getProperty('name');
     let line = f.getProperty('line');
     // Stations have line property, while lines do not.
-    if (typeof line === "undefined") {
+    if (typeof line === 'undefined') {
       return;
     }
     if (line.includes('-')) {
@@ -193,6 +208,7 @@ function initMap() {
           map.data.remove(dataFeature);
         });
         stationDataFeatures = features;
-      });
+      }
+    );
   });
 }
