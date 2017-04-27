@@ -19,81 +19,96 @@
 /* eslint quotes: ["warn", "single"]*/
 
 // Map Style for the basemap tiles.
-const mapStyle = [{
-    'elementType': 'geometry',
-    'stylers': [{
-      'color': '#eceff1'
-    }]
+const mapStyle = [
+  {
+    elementType: 'geometry',
+    stylers: [
+      {
+        color: '#eceff1'
+      }
+    ]
   },
   {
-    'elementType': 'labels',
-    'stylers': [{
-      'visibility': 'off'
-    }]
+    elementType: 'labels',
+    stylers: [
+      {
+        visibility: 'off'
+      }
+    ]
   },
   {
-    'featureType': 'administrative',
-    'elementType': 'labels',
-    'stylers': [{
-      'visibility': 'off'
-    }]
+    featureType: 'administrative',
+    elementType: 'labels',
+    stylers: [
+      {
+        visibility: 'off'
+      }
+    ]
   },
   {
-    'featureType': 'road',
-    'elementType': 'geometry',
-    'stylers': [{
-      'color': '#cfd8dc'
-    }]
+    featureType: 'road',
+    elementType: 'geometry',
+    stylers: [
+      {
+        color: '#cfd8dc'
+      }
+    ]
   },
   {
-    'featureType': 'road',
-    'elementType': 'geometry.stroke',
-    'stylers': [{
-      'visibility': 'off'
-    }]
+    featureType: 'road',
+    elementType: 'geometry.stroke',
+    stylers: [
+      {
+        visibility: 'off'
+      }
+    ]
   },
   {
-    'featureType': 'road.local',
-    'stylers': [{
-      'visibility': 'off'
-    }]
+    featureType: 'road.local',
+    stylers: [
+      {
+        visibility: 'off'
+      }
+    ]
   },
   {
-    'featureType': 'water',
-    'stylers': [{
-      'color': '#b0bec5'
-    }]
+    featureType: 'water',
+    stylers: [
+      {
+        color: '#b0bec5'
+      }
+    ]
   }
 ];
 
 // Colors from https://en.wikipedia.org/wiki/New_York_City_Subway_nomenclature#Colors_and_trunk_lines
-let routeColors = {
+const routeColors = {
   // IND Eighth Avenue Line
-  'A': '#2850ad',
-  'C': '#2850ad',
-  'E': '#2850ad',
+  A: '#2850ad',
+  C: '#2850ad',
+  E: '#2850ad',
 
   // IND Sixth Avenue Line
-  'B': '#ff6319',
-  'D': '#ff6319',
-  'F': '#ff6319',
-  'M': '#ff6319',
+  B: '#ff6319',
+  D: '#ff6319',
+  F: '#ff6319',
+  M: '#ff6319',
 
   // IND Crosstown Line
-  'G': '#6cbe45',
+  G: '#6cbe45',
 
   // BMT Canarsie Line
-  'L': '#a7a9ac',
+  L: '#a7a9ac',
 
   // BMT Nassau Street Line
-  'J': '#996633',
-  'Z': '#996633',
+  J: '#996633',
+  Z: '#996633',
 
   // BMT Broadway Line
-  'N': '#fccc0a',
-  'Q': '#fccc0a',
-  'R': '#fccc0a',
-  'W': '#fccc0a',
+  N: '#fccc0a',
+  Q: '#fccc0a',
+  R: '#fccc0a',
+  W: '#fccc0a',
 
   // IRT Broadway – Seventh Avenue Line
   '1': '#ee352e',
@@ -109,12 +124,12 @@ let routeColors = {
   '7': '#b933ad',
 
   // Shuttles
-  'S': '#808183',
+  S: '#808183'
 };
 
 // initMap is called from the Google Maps JS library after the library has initialised itself.
 function initMap() {
-  const map = new google.maps.Map(document.getElementsByClassName('map')[0], {
+  const map = new google.maps.Map(document.querySelector('#map'), {
     zoom: 12,
     center: {
       // New York City
@@ -131,14 +146,14 @@ function initMap() {
 
   // Style the GeoJSON features (stations & lines)
   map.data.setStyle(feature => {
-    let line = feature.getProperty('line');
+    const line = feature.getProperty('line');
     // Stations have line property, while lines do not.
-    if (typeof line !== "undefined") {
+    if (line) {
       // Icon path from: https://material.io/icons/#ic_train
       return {
         icon: {
-          fillColor: 'LightSteelBlue',
-          strokeColor: 'Gray',
+          fillColor: '#00b0ff',
+          strokeColor: '#3c8cb8',
           fillOpacity: 1.0,
           scale: 1.2,
           path: 'M12 2c-4 0-8 .5-8 4v9.5C4 17.43 5.57 19 7.5 19L6 20.5v.5h2.2' +
@@ -151,18 +166,18 @@ function initMap() {
     }
 
     // if type is not a station, it's a subway line
-    let routeSymbol = feature.getProperty('rt_symbol');
+    const routeSymbol = feature.getProperty('rt_symbol');
     return {
       strokeColor: routeColors[routeSymbol]
     };
   });
 
   map.data.addListener('click', ev => {
-    let f = ev.feature;
-    let stationName = f.getProperty('name');
+    const f = ev.feature;
+    const stationName = f.getProperty('name');
     let line = f.getProperty('line');
     // Stations have line property, while lines do not.
-    if (typeof line === "undefined") {
+    if (!line) {
       return;
     }
     if (line.includes('-')) {
@@ -183,8 +198,8 @@ function initMap() {
   // moving, zooming,  panning or animating. We use it to load
   // Geojson for the new viewport.
   google.maps.event.addListener(map, 'idle', () => {
-    let sw = map.getBounds().getSouthWest();
-    let ne = map.getBounds().getNorthEast();
+    const sw = map.getBounds().getSouthWest();
+    const ne = map.getBounds().getNorthEast();
     map.data.loadGeoJson(
       `/data/subway-stations?viewport=${sw.lat()},${sw.lng()}|${ne.lat()},${ne.lng()}`,
       null,
@@ -193,6 +208,7 @@ function initMap() {
           map.data.remove(dataFeature);
         });
         stationDataFeatures = features;
-      });
+      }
+    );
   });
 }
