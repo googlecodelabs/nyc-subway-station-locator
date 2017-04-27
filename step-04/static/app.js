@@ -19,7 +19,7 @@
 /* eslint quotes: ["warn", "single"]*/
 
 function initMap() {
-  const map = new google.maps.Map(document.getElementsByClassName('map')[0], {
+  const map = new google.maps.Map(document.querySelector('#map'), {
     zoom: 11,
     center: {
       // New York City
